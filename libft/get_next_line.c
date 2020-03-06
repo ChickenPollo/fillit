@@ -6,15 +6,16 @@
 /*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 20:05:54 by fjankows          #+#    #+#             */
-/*   Updated: 2020/03/06 15:05:52 by luimarti         ###   ########.fr       */
+/*   Updated: 2020/03/06 15:18:31 by luimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "get_next_line.h"
 
 #include <stdio.h>
 #include <unistd.h>
 #include <limits.h>
+#include "libft.h"
+
+#define BUFF_SIZE 32
 
 void	realloc_buffer(char **prev, char **inputbuf,
 						char **writepos, int from_inputbuf)

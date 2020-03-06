@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:09:52 by fjankows          #+#    #+#             */
-/*   Updated: 2020/03/05 12:36:31 by fjankows         ###   ########.fr       */
+/*   Updated: 2020/03/06 15:19:14 by luimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,7 @@ int				ft_iscntrl(int c);
 int				ft_isgraph(int c);
 int				ft_islower(int c);
 int				ft_isupper(int c);
+
+int				get_next_line(const int fd, char **line);
+
 #endif
