@@ -6,7 +6,7 @@
 /*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 21:49:44 by luimarti          #+#    #+#             */
-/*   Updated: 2020/03/07 21:52:51 by luimarti         ###   ########.fr       */
+/*   Updated: 2020/03/07 22:11:13 by luimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define MAP_MAX 16
 
-typedef struct s_tetris
+typedef struct	s_tetris
 {
 	char			t[4][4];
 	struct s_tetris	*next;
