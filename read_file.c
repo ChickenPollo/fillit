@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
+/*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 15:09:54 by luimarti          #+#    #+#             */
-/*   Updated: 2020/03/08 18:55:03 by luimarti         ###   ########.fr       */
+/*   Updated: 2020/03/08 22:08:44 by fjankows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int		check_chars(char *line)
 	return (1);
 }
 
-static void		parse_line(char *line, t_tetris *t, int counter)
+static void		parse_line(char *line, t_tet *t, int counter)
 {
 	int	pos;
 
@@ -40,21 +40,21 @@ static void		parse_line(char *line, t_tetris *t, int counter)
 	}
 }
 
-static void		skip_line(int fd, char *line)
+static void		skip_line(char *line)
 {
 	if (ft_strlen(line) != 0)
 		exit_error(2);
 }
 
-static t_tetris	*read_file(int fd)
+static t_tet	*read_file(int fd)
 {
 	char		*line;
 	int			line_cnt;
-	t_tetris	*first;
-	t_tetris	*current;
+	t_tet		*first;
+	t_tet		*current;
 
 	line_cnt = 0;
-	(first = (t_tetris *)ft_memalloc(sizeof(t_tetris))) ?
+	(first = (t_tet *)ft_memalloc(sizeof(t_tet))) ?
 				current = first : exit_error(2);
 	while (get_next_line(fd, &line) > 0)
 	{
@@ -62,8 +62,8 @@ static t_tetris	*read_file(int fd)
 			exit_error(2);
 		if ((line_cnt % 5) == 4)
 		{
-			skip_line(fd, line);
-			(current->next = (t_tetris *)ft_memalloc(sizeof(t_tetris))) ?
+			skip_line(line);
+			(current->next = (t_tet *)ft_memalloc(sizeof(t_tet))) ?
 				current = current->next : exit_error(2);
 		}
 		else if ((line_cnt % 5) < 4)
@@ -75,7 +75,7 @@ static t_tetris	*read_file(int fd)
 	return (first);
 }
 
-t_tetris		*parse_data(char *file_name)
+t_tet			*parse_data(char *file_name)
 {
 	int		fd;
 

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cornerizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
+/*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/08 17:49:41 by luimarti          #+#    #+#             */
-/*   Updated: 2020/03/08 20:42:36 by luimarti         ###   ########.fr       */
+/*   Updated: 2020/03/08 22:01:22 by fjankows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include "libft/libft.h"
 
-static void	delete_row(t_tetris *tet)
+static void	delete_row(t_tet *tet)
 {
 	int	col;
 	int	row;
@@ -32,7 +32,7 @@ static void	delete_row(t_tetris *tet)
 	}
 }
 
-static void	delete_col(t_tetris *tet)
+static void	delete_col(t_tet *tet)
 {
 	int	col;
 	int	row;
@@ -51,7 +51,7 @@ static void	delete_col(t_tetris *tet)
 	}
 }
 
-static void	check_row(t_tetris *tet, int tries)
+static void	check_row(t_tet *tet, int tries)
 {
 	int	col;
 	int res;
@@ -70,7 +70,7 @@ static void	check_row(t_tetris *tet, int tries)
 	}
 }
 
-static void	check_col(t_tetris *tet, int tries)
+static void	check_col(t_tet *tet, int tries)
 {
 	int row;
 	int res;
@@ -89,9 +89,9 @@ static void	check_col(t_tetris *tet, int tries)
 	}
 }
 
-void		cornerizer(t_tetris *first)
+void		cornerizer(t_tet *first)
 {
-	t_tetris	*tet;
+	t_tet	*tet;
 
 	tet = first;
 	while (tet)
