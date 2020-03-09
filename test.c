@@ -12,7 +12,7 @@ int	main(int argc,char *argv[])
 		printf("VVLV\n");
 	while (tet != NULL)
 	{
-		printf("tetrimino:\n");
+		printf("tetrimino %d:\n", tet->index);
 		for (int row = 0; row < 4; row++)
 		{
 			for (int col = 0; col < 4; col++)
