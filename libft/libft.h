@@ -6,7 +6,7 @@
 /*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 15:09:52 by fjankows          #+#    #+#             */
-/*   Updated: 2020/03/06 15:19:14 by luimarti         ###   ########.fr       */
+/*   Updated: 2020/03/09 12:33:43 by luimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdlib.h>
 # include <limits.h>
+
+# define BUFF_SIZE 32
 
 typedef struct	s_list
 {

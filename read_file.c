@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 15:09:54 by luimarti          #+#    #+#             */
-/*   Updated: 2020/03/09 02:24:11 by fjankows         ###   ########.fr       */
+/*   Updated: 2020/03/09 03:12:14 by luimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_tet	*read_file(int fd)
 		if ((ft_strlen(l) != 4 && (l_cnt % 5) != 4) || !check_chars(l))
 			exit_error(2, first);
 		if ((l_cnt % 5) == 4)
-			(ft_strlen(l) == 0 && 
+			(ft_strlen(l) == 0 &&
 				(cur->next = (t_tet *)ft_memalloc(sizeof(t_tet)))) ?
 				cur = cur->next : exit_error(2, first);
 		else if ((l_cnt % 5) < 4)

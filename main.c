@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 21:40:14 by fjankows          #+#    #+#             */
-/*   Updated: 2020/03/09 02:09:08 by fjankows         ###   ########.fr       */
+/*   Updated: 2020/03/09 13:31:11 by luimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include "libft/libft.h"
+#include <stdio.h> //REMOVE
 
 static int	get_neighbours(char t[4][4], int i, int j)
 {
@@ -73,9 +74,7 @@ static int	check_tet_valid(t_tet *tmino)
 	}
 	if (count != 4)
 		return (0);
-	if (tmino->next)
-		return (check_tet_valid(tmino->next));
-	return (1);
+	return ((tmino->next) ? (check_tet_valid(tmino->next)) : 1);
 }
 
 int			main(int argc, char *argv[])
@@ -94,8 +93,7 @@ int			main(int argc, char *argv[])
 	{
 		if (prep_backtrack(i, tminos))
 		{
-			system("leaks fillit");
-			exit(0);
+			return (0);
 		}
 	}
 	exit_error(255, tminos);
