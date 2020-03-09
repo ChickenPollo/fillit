@@ -7,9 +7,7 @@ int	main(int argc,char *argv[])
 
 	t_tetris *tet = parse_data(argv[1]);
 
-	//printf("AAA\n");
-	if (tet == NULL)
-		printf("VVLV\n");
+	cornerizer(tet);
 	while (tet != NULL)
 	{
 		printf("tetrimino %d:\n", tet->index);
@@ -23,6 +21,6 @@ int	main(int argc,char *argv[])
 		}
 		tet = tet->next;
 	}
-	//printf("BBB\n");
+
 	return(0);
 }

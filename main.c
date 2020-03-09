@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 21:40:14 by fjankows          #+#    #+#             */
-/*   Updated: 2020/03/08 19:45:22 by fjankows         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:39:13 by luimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int			main(int argc, char *argv[])
 		exit_error(1);
 	// parse file
 	tetriminos = parse_data(argv[1]);
+	cornerizer(tetriminos);
 	// iterate map size
 	i = 1;
 	while (++i <= MAP_MAX)
