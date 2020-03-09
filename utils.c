@@ -6,7 +6,7 @@
 /*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/08 17:28:21 by luimarti          #+#    #+#             */
-/*   Updated: 2020/03/08 22:07:57 by fjankows         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:16:57 by fjankows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,27 @@ void		print_map(char map[][MAP_MAX], int map_dim)
 	}
 }
 
-void		exit_error(int i)
+void		free_list(t_tet *tmino)
 {
+	t_tet	*next;
+
+	while (tmino)
+	{
+		next = tmino->next;
+		free(tmino);
+		tmino = next;
+	}
+}
+
+void		exit_error(int i, t_tet *tmino)
+{
+	free_list(tmino);
 	ft_putendl("error");
 	exit(i);
+}
+
+void		exit_usage(void)
+{
+	ft_putendl("usage: ./fillit <filename>");
+	exit(2);
 }

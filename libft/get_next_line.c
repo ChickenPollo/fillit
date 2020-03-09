@@ -3,85 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
+/*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/27 20:05:54 by fjankows          #+#    #+#             */
-/*   Updated: 2020/03/06 15:18:31 by luimarti         ###   ########.fr       */
+/*   Created: 2020/02/28 13:27:48 by luimarti          #+#    #+#             */
+/*   Updated: 2020/03/09 02:32:25 by fjankows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <limits.h>
 #include "libft.h"
+#include <unistd.h>
 
 #define BUFF_SIZE 32
 
-void	realloc_buffer(char **prev, char **inputbuf,
-						char **writepos, int from_inputbuf)
+static int        ft_get_line(const int fd, char **line, char **fds, int ret)
 {
-	ssize_t		bytes;
+    char    *temp;
+    int        len;
 
-	if (from_inputbuf)
-		*prev = *inputbuf;
-	bytes = ft_strlen(*prev);
-	*inputbuf = ft_memalloc(bytes + BUFF_SIZE + 1);
-	ft_memcpy(*inputbuf, *prev, ft_strlen(*prev));
-	free(*prev);
-	*prev = NULL;
-	*writepos = *inputbuf + bytes;
+    len = 0;
+    while (fds[fd][len] != '\n' && fds[fd][len] != '\0')
+        len++;
+    if (fds[fd][len] == '\n')
+    {
+        *line = ft_strsub(fds[fd], 0, len);
+        temp = ft_strdup(fds[fd] + len + 1);
+        free(fds[fd]);
+        fds[fd] = temp;
+        if (fds[fd][0] == '\0')
+            ft_strdel(&fds[fd]);
+    }
+    else if (fds[fd][len] == '\0')
+    {
+        if (ret == BUFF_SIZE)
+            return (get_next_line(fd, line));
+        *line = ft_strdup(fds[fd]);
+        ft_strdel(&fds[fd]);
+    }
+    return (1);
 }
 
-int		process_input(char *inputbuf, char **prev, char **lineptr)
+int                get_next_line(const int fd, char **line)
 {
-	char	*newline;
+    static char        *fds[OPEN_MAX];
+    char            buf[BUFF_SIZE + 1];
+    int                ret;
+    char            *temp;
 
-	if ((newline = ft_strchr(inputbuf, '\n')))
-	{
-		*lineptr = ft_strsub(inputbuf, 0, newline - inputbuf);
-		*prev = ft_strdup(ft_strchr(inputbuf, '\n') + 1);
-		free(inputbuf);
-		return (1);
-	}
-	return (0);
-}
-
-int		handle_return(size_t bytes, char *inputbuf,
-					char *writepos, char **lineptr)
-{
-	if (bytes == 0 && inputbuf != writepos)
-	{
-		*lineptr = inputbuf;
-		return (1);
-	}
-	return (bytes);
-}
-
-int		get_next_line(const int fd, char **lineptr)
-{
-	static char	*prev[OPEN_MAX + 1];
-	ssize_t		bytes;
-	char		*inputbuf;
-	char		*writepos;
-
-	if (fd < 0 || fd > OPEN_MAX)
-		return (-1);
-	if (prev[fd])
-	{
-		realloc_buffer(&prev[fd], &inputbuf, &writepos, 0);
-		if (process_input(inputbuf, &prev[fd], lineptr))
-			return (1);
-	}
-	else
-	{
-		inputbuf = ft_memalloc(BUFF_SIZE + 1);
-		writepos = inputbuf;
-	}
-	while ((bytes = read(fd, writepos, BUFF_SIZE)) > 0)
-	{
-		realloc_buffer(&prev[fd], &inputbuf, &writepos, 1);
-	}
-	if (process_input(inputbuf, &prev[fd], lineptr))
-		return (1);
-	return (handle_return(bytes, inputbuf, writepos, lineptr));
+    if (fd < 0 || line == NULL || fd >= OPEN_MAX)
+        return (-1);
+    while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
+    {
+        buf[ret] = '\0';
+        if (fds[fd] == NULL)
+            fds[fd] = ft_strnew(1);
+        temp = ft_strjoin(fds[fd], buf);
+        free(fds[fd]);
+        fds[fd] = temp;
+        if (ft_strchr(buf, '\n'))
+            break ;
+    }
+    if (ret < 0)
+        return (-1);
+    else if (ret == 0 && (fds[fd] == NULL || fds[fd][0] == '\0'))
+        return (0);
+    return (ft_get_line(fd, line, fds, ret));
 }

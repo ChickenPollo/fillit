@@ -6,7 +6,7 @@
 /*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 15:09:54 by luimarti          #+#    #+#             */
-/*   Updated: 2020/03/08 22:08:44 by fjankows         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:24:11 by fjankows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,62 +16,55 @@
 #include <stdlib.h>
 #include "fillit.h"
 
-static int		check_chars(char *line)
+static int		check_chars(char *l)
 {
-	while (*line)
+	while (*l)
 	{
-		if (*line != '.' && *line != '#')
-			exit_error(2);
-		line++;
+		if (*l != '.' && *l != '#')
+			return (0);
+		l++;
 	}
 	return (1);
 }
 
-static void		parse_line(char *line, t_tet *t, int counter)
+static void		parse_l(char *l, t_tet *t, int counter)
 {
 	int	pos;
 
 	pos = 0;
 	while (pos < 4)
 	{
-		t->t[counter][pos] = (*line == '#') ? 1 : 0;
+		t->t[counter][pos] = (*l == '#') ? 1 : 0;
 		pos++;
-		line++;
+		l++;
 	}
-}
-
-static void		skip_line(char *line)
-{
-	if (ft_strlen(line) != 0)
-		exit_error(2);
 }
 
 static t_tet	*read_file(int fd)
 {
-	char		*line;
-	int			line_cnt;
+	char		*l;
+	int			l_cnt;
 	t_tet		*first;
-	t_tet		*current;
+	t_tet		*cur;
 
-	line_cnt = 0;
+	l_cnt = 0;
 	(first = (t_tet *)ft_memalloc(sizeof(t_tet))) ?
-				current = first : exit_error(2);
-	while (get_next_line(fd, &line) > 0)
+				cur = first : exit_error(2, NULL);
+	while (get_next_line(fd, &l) > 0)
 	{
-		if ((ft_strlen(line) != 4 && (line_cnt % 5) != 4) || !check_chars(line))
-			exit_error(2);
-		if ((line_cnt % 5) == 4)
-		{
-			skip_line(line);
-			(current->next = (t_tet *)ft_memalloc(sizeof(t_tet))) ?
-				current = current->next : exit_error(2);
-		}
-		else if ((line_cnt % 5) < 4)
-			parse_line(line, current, (line_cnt) % 5);
-		current->index = line_cnt++ / 5;
+		if ((ft_strlen(l) != 4 && (l_cnt % 5) != 4) || !check_chars(l))
+			exit_error(2, first);
+		if ((l_cnt % 5) == 4)
+			(ft_strlen(l) == 0 && 
+				(cur->next = (t_tet *)ft_memalloc(sizeof(t_tet)))) ?
+				cur = cur->next : exit_error(2, first);
+		else if ((l_cnt % 5) < 4)
+			parse_l(l, cur, (l_cnt) % 5);
+		cur->index = l_cnt++ / 5;
+		free(l);
 	}
-	if ((line_cnt % 5) != 4)
-		exit_error(2);
+	if ((l_cnt % 5) != 4)
+		exit_error(2, first);
 	return (first);
 }
 
@@ -81,6 +74,6 @@ t_tet			*parse_data(char *file_name)
 
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
-		exit_error(2);
+		exit_error(2, NULL);
 	return (read_file(fd));
 }

@@ -6,7 +6,7 @@
 /*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 21:40:14 by fjankows          #+#    #+#             */
-/*   Updated: 2020/03/08 22:57:45 by fjankows         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:09:08 by fjankows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	check_neighbours(char t[4][4], int i, int j, int count)
 	if (neighbours >= 1 && neighbours <= 3)
 		total_neighbour += neighbours;
 	else
-		exit_error(7);
+		return (0);
 	if (count != 3)
 		return (1);
 	if (!(total_neighbour == 6 || total_neighbour == 8))
@@ -48,7 +48,7 @@ static int	check_neighbours(char t[4][4], int i, int j, int count)
 	return (1);
 }
 
-static void	check_tet_valid(t_tet *tmino)
+static int	check_tet_valid(t_tet *tmino)
 {
 	int i;
 	int j;
@@ -64,7 +64,7 @@ static void	check_tet_valid(t_tet *tmino)
 			if (tmino->t[i][j])
 			{
 				if (!(check_neighbours(tmino->t, i, j, count)))
-					exit_error(5);
+					return (0);
 				count++;
 			}
 			++j;
@@ -72,9 +72,10 @@ static void	check_tet_valid(t_tet *tmino)
 		++i;
 	}
 	if (count != 4)
-		exit_error(6);
+		return (0);
 	if (tmino->next)
-		check_tet_valid(tmino->next);
+		return (check_tet_valid(tmino->next));
+	return (1);
 }
 
 int			main(int argc, char *argv[])
@@ -83,17 +84,19 @@ int			main(int argc, char *argv[])
 	t_tet	*tminos;
 
 	if (argc != 2)
-		exit_error(1);
+		exit_usage();
 	tminos = parse_data(argv[1]);
+	if (!check_tet_valid(tminos))
+		exit_error(3, tminos);
 	cornerizer(tminos);
-	check_tet_valid(tminos);
 	i = 1;
 	while (++i <= MAP_MAX)
 	{
 		if (prep_backtrack(i, tminos))
 		{
+			system("leaks fillit");
 			exit(0);
 		}
 	}
-	exit_error(255);
+	exit_error(255, tminos);
 }

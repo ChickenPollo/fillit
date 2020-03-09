@@ -6,7 +6,7 @@
 /*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/08 22:05:39 by fjankows          #+#    #+#             */
-/*   Updated: 2020/03/08 22:06:33 by fjankows         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:08:18 by fjankows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,7 @@ static void	rm_from_map(int mapsz, int pos, t_tet *tmino, char map[][MAP_MAX])
 		while (j < 4)
 		{
 			if (tmino->t[i][j])
-			{
-				if (map[x + i][y + j] != ('A' + (char)tmino->index))
-					exit_error(3);
 				map[x + i][y + j] = 0;
-			}
 			++j;
 		}
 		++i;
