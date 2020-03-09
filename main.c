@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luimarti <luimarti@student.42.us.org>      +#+  +:+       +#+        */
+/*   By: fjankows <fjankows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 21:40:14 by fjankows          #+#    #+#             */
-/*   Updated: 2020/03/08 20:39:13 by luimarti         ###   ########.fr       */
+/*   Updated: 2020/03/08 21:57:46 by fjankows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,11 @@ static void	remove_from_map(int map_dim, int pos, t_tetris *tetrimino, char map[
 		while (j < 4)
 		{
 			if (tetrimino->t[i][j])
+			{
 				if (map[x + i][y + j] != ('A' + (char)tetrimino->index))
 					exit_error(3);
 				map[x + i][y + j] = 0;
+			}
 			++j;
 		}
 		++i;
@@ -118,6 +120,7 @@ int			backtrack(int map_dim, t_tetris *tetrimino, char map[][MAP_MAX])
 			if (backtrack(map_dim, tetrimino->next, map))
 				return (1);
 			remove_from_map(map_dim, pos, tetrimino, map);
+			//print_map(map, map_dim);
 		}
 		pos++;
 	}
